@@ -18,10 +18,16 @@ body {
     margin-left: 40px;
 }
 
-h1, h2, h3, h4 {
+h1, h3, h4 {
     font-family: 'Lobster', cursive;
 }
 
+h2 {
+    color: #000000;
+    float: right;
+    display:table-cell;
+    vertical-align:bottom;
+}
 .date {
     color: #828282;
 }
