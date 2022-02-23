@@ -1,7 +1,8 @@
+from urllib import request
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-from .models import Post
-from .forms import PostForm
+from .models import Post, Comment
+from .forms import PostForm, CommentForm
 from django.shortcuts import redirect
 
 def post_list(request):
@@ -10,7 +11,8 @@ def post_list(request):
 
 def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
-    return render(request, 'blog/post_detail.html', {'post': post})
+    comments = Comment.objects.select_related('post').all()      
+    return render(request, 'blog/post_detail.html', {'post': post, 'comments': comments})
 
 def post_new(request):
     if request.method == "POST":
@@ -54,4 +56,4 @@ def register(request):
             return render(request, 'blog/register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
-    return render(request, 'blog/register.html', {'user_form': user_form})    
+    return render(request, 'blog/register.html', {'user_form': user_form})  
