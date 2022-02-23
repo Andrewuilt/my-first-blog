@@ -13,13 +13,19 @@
             <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span>Создать пост</a>
         {% endif %}
             <h1><a href="/">My Blog</a></h1>
+        {% if user.username == 'admin' %}
+            <h1>Добро пожаловать, король!</h1> 
+            <h2><p><a href="/accounts/logout/">Выйти</a>
+            <p><a href="/admin">Админка</a></p></h2>
+            {% else %}
            {% if user.is_authenticated %}
-                <h1>Добро пожаловать, {{ user.first_name }}</h1>
+            <h1>Добро пожаловать, {{ user.first_name }}</h1>
                 <h2><a href="/accounts/logout/">Выйти</a></h2>
             {% else %}
                 <h2><p><a href="/accounts/login/">Войти</a></p>
                 <p><a href="/register/">Зарегистрироваться</a></p></h2>
             {% endif %}
+        {% endif %}
         </div>
         <div class="content container">
             <div class="row">

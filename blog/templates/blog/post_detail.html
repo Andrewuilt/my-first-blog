@@ -2,8 +2,8 @@
 
 {% block content %}
     <div class="post">
-        {% if user.is_authenticated %}
-        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span></a>
+        {% if user.is_authenticated and user.id == post.author.id %}
+        <a class="btn btn-default" href="{% url 'post_edit' pk=post.pk %}"><span class="glyphicon glyphicon-pencil"></span> Редактировать</a>
         {% endif %}
         {% if post.published_date %}
             <div class="date">
@@ -20,11 +20,17 @@
     <div class="card-footer">
         <div id="comments-list-post-{{ post.id }}">
                 {% for comment in comments %}
-                    <p>{{ comment.date }}</p>
-                    <b><p>{{ comment.author }}</p></b>
-                    <p>{{ comment.text }}</p>
-                    <br>
+                <div style="border: 3px solid #40413f; background-color: #d5d5d1; padding: 10px;">
+                    <p>Добавлен: {{ comment.date }}</p>
+                    <p></p>Пользователь: <b>{{ comment.author }}</b></p>
+                    <p style="font-family: cursive;">{{ comment.text }}</p>
+                </div>
+                <br>
                 {% endfor %}
+        {% if user.is_authenticated == False %}
+                <p style="font-family: cursive">Чтобы добавить комментарий, необходимо авторизоваться.</p>
+        {% endif %}
+        {% if user.is_authenticated %}
         <div class="comment-form">
             <div style="display: flex; margin-top: 20px;">
                 <input class="form-control form-control-sm comment-input"
@@ -32,5 +38,6 @@
                 <input class="form-control btn btn-outline-success btn-sm" type="submit" value="Добавить" style='background-color: aquamarine;'>
             </div>
         </div>
+        {% endif %}
     </div>
 {% endblock %}
